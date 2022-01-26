@@ -68,13 +68,70 @@
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
+DROP TABLE IF EXISTS Movies;
+DROP TABLE IF EXISTS people;
+DROP TABLE IF EXISTS topcast;
 
 -- Create new tables, according to your domain model
 -- TODO!
+CREATE TABLE movies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    year INTEGER,
+    MPAA_Rating TEXT,
+    director_id INTEGER
+);
+
+CREATE TABLE people (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    full_name TEXT
+);
+
+CREATE TABLE topcast  (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    movie_id INTEGER,
+    actor_id INTEGER,
+    zzzz TEXT 
+);
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
--- TODO!
+INSERT INTO movies
+values (1,'Batman Begins', 2005, 'PG-13', 14),
+(2, 'The Dark Knight',    2008,  'PG-13', 14),
+(3, 'The Dark Knight Rises',  2012, 'PG-13', 14);
+
+INSERT INTO people 
+values (1,  'Christian Bale'),  
+(2, 'Michael Caine'),  
+(3, 'Liam Neeson '),          
+(4, 'Katie Holmes' ),        
+(5, 'Gary Oldman' ),          
+(6, 'Heath Ledger'),          
+(7, 'Aaron Eckhart' ),        
+(8, 'Maggie Gyllenhaal'),          
+(10, 'Gary Oldman' ),          
+(11, 'Tom Hardy'  ),           
+(12, 'Joseph Gordon-Levitt '),
+(13, 'Anne Hathaway'),
+(14, 'Christopher Nolan');
+
+INSERT INTO topcast
+values (1, 1, 1, 'Bruce Wayne'),
+(2, 1, 2, 'Alfred'),
+(3, 1, 3, "Ra's Al Ghul"),
+(4, 1, 4, 'Rachel Dawes'),
+(5, 1, 5, 'Commissioner Gordon'),
+(6, 2, 1, 'Bruce Wayne'),
+(7, 2, 6, 'Joker'),
+(8, 2, 7, 'Harvy Dent'),
+(9, 2, 2, 'Alfred'),
+(10, 2, 8, 'Rachel Dawes'),
+(11, 3, 1, 'Bruce Wayne'),
+(12, 3, 5, 'Commissioner Gordon'),
+(13, 3, 11, 'Bane'),
+(14, 3, 12, 'John Blake'),
+(15, 3, 13, 'Selina Kyle');
 
 -- Prints a header for the movies output
 .print "Movies"
@@ -83,6 +140,9 @@
 
 -- The SQL statement for the movies output
 -- TODO!
+select title, year, MPAA_Rating, full_name from movies
+INNER JOIN people ON movies.director_id = people.id;
+
 
 -- Prints a header for the cast output
 .print ""
@@ -93,3 +153,8 @@
 
 -- The SQL statement for the cast output
 -- TODO!
+ 
+select movies.title, people.full_name, topcast.zzzz
+from topcast
+INNER JOIN movies ON movies.id = topcast.movie_id
+INNER JOIN people ON people.id = topcast.actor_id;
